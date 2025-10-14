@@ -80,7 +80,7 @@ const HeroSection = () => {
           />
         </div>
 
-        <div className="max-w-7xl mx-auto w-full z-10 mt-20">
+        <div className="max-w-7xl mx-auto w-full z-10 mt-10">
           {/* Mobile Layout - Centered */}
           <div className="block lg:hidden">
             <motion.div
@@ -89,33 +89,7 @@ const HeroSection = () => {
               variants={containerVariants}
               className="text-center"
             >
-              {/* Profile Image - Mobile*/}
-              <motion.div variants={imageVariants} className="mb-8">
-                <div className="w-32 h-32 mx-auto relative">
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    className={`w-full h-32 rounded-2xl overflow-hidden border-4 ${
-                      isDarkMode ? "border-gray-800" : "border-gray-300"
-                    } shadow-2xl`}
-                  >
-                    <img
-                      src={PROFILE_PIC}
-                      alt="Profile"
-                      className="w-full h-full object-cover"
-                    />
-                  </motion.div>
-                  {/* Decorative ring */}
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{
-                      duration: 20,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
-                    className="absolute -inset-2 rounded-2xl border border-blue-500/20"
-                  />
-                </div>
-              </motion.div>
+              
 
               {/* Content - Mobile */}
               <motion.div
@@ -134,14 +108,14 @@ const HeroSection = () => {
                 <span
                   className={`${isDarkMode ? "text-white" : "text-gray-900"}`}
                 >
-                  Building Digital
+                  Crafting Digital
                 </span>
                 <span className="text-blue-500 font-medium ml-2">
                   experiences
                 </span>
                 <br />
                 <span className={isDarkMode ? "text-white" : "text-gray-900"}>
-                  that matter.
+                  That Inspire.
                 </span>
               </motion.h1>
 
@@ -149,16 +123,95 @@ const HeroSection = () => {
                 variants={itemVariants}
                 className={`text-base md:text-lg ${
                   isDarkMode ? "text-gray-400" : "text-gray-600"
-                } mb-8 max-w-xl mx-auto font-light leading-relaxed`}
+                } max-w-xl mx-auto font-light leading-relaxed`}
               >
-                I am a passionate developer with a knack for creating seamless
-                user experiences.
+                I build high-performance web applications with clean architecture, accessibility, and seamless user experiences.
               </motion.p>
+
+
+                {/* Tech Stack - Mobile */}
+              <motion.div
+                variants={containerVariants}
+                className="flex justify-center items-center space-x-6 text-xs uppercase tracking-widest flex-wrap mb-2"
+              >
+                <span
+                  className={isDarkMode ? "text-gray-600" : "text-gray-500"}
+                >
+                  React
+                </span>
+                <span
+                  className={isDarkMode ? "text-gray-700" : "text-gray-400"}
+                >
+                  •••
+                </span>
+                <span
+                  className={isDarkMode ? "text-gray-600" : "text-gray-500"}
+                >
+                  Node.js
+                </span>
+                <span
+                  className={isDarkMode ? "text-gray-700" : "text-gray-400"}
+                >
+                  •••
+                </span>
+                <span
+                  className={isDarkMode ? "text-gray-600" : "text-gray-500"}
+                >
+                  TypeScript
+                </span>
+                <span
+                  className={isDarkMode ? "text-gray-700" : "text-gray-400"}
+                >
+                  •••
+                </span>
+                <span
+                  className={isDarkMode ? "text-gray-600" : "text-gray-500"}
+                >
+                  MongoDB
+                </span>
+              </motion.div>
+
+                {/* Profile Image - Mobile*/}
+              <motion.div variants={imageVariants} className="mb-18">
+                <div className="w-50 h-70 mx-auto relative">
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    className={`w-full h-70 rounded-2xl overflow-hidden border-4 ${
+                      isDarkMode ? "border-gray-800" : "border-gray-300"
+                    } shadow-2xl`}
+                  >
+                    <img
+                      src={PROFILE_PIC}
+                      alt="Profile"
+                      className="w-full h-full object-cover"
+                    />
+                  </motion.div>
+                  {/* Decorative ring */}
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{
+                      duration: 20,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                    className="absolute -inset-1 rounded-2xl border border-blue-500/20"
+                  />
+                  <motion.div
+                  animate={{ rotate: -360 }}
+                  transition={{
+                    duration: 20,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                  className="absolute -inset-1 rounded-2xl border border-purple-500/20"
+                />
+                </div>
+              </motion.div>
 
               {/* CTA Buttons - Mobile */}
               <motion.div
                 variants={itemVariants}
-                className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8"
+                className="flex flex-col-2 gap-4 justify-center items-center mb-8"
               >
                 <motion.button
                   whileHover={{ y: -2 }}
@@ -185,7 +238,7 @@ const HeroSection = () => {
               {/* Social Links - Mobile */}
               <motion.div
                 variants={itemVariants}
-                className="flex justify-center space-x-6 mb-8"
+                className="flex justify-center space-x-6 mb-15"
               >
                 {[
                   { icon: FiGithub, href: "#" },
@@ -205,48 +258,6 @@ const HeroSection = () => {
                     <social.icon size={20} />
                   </motion.a>
                 ))}
-              </motion.div>
-
-              {/* Tech Stack - Mobile */}
-              <motion.div
-                variants={containerVariants}
-                className="flex justify-center items-center space-x-6 text-xs uppercase tracking-widest flex-wrap"
-              >
-                <span
-                  className={isDarkMode ? "text-gray-600" : "text-gray-500"}
-                >
-                  React
-                </span>
-                <span
-                  className={isDarkMode ? "text-gray-700" : "text-gray-400"}
-                >
-                  *
-                </span>
-                <span
-                  className={isDarkMode ? "text-gray-600" : "text-gray-500"}
-                >
-                  Node.js
-                </span>
-                <span
-                  className={isDarkMode ? "text-gray-700" : "text-gray-400"}
-                >
-                  *
-                </span>
-                <span
-                  className={isDarkMode ? "text-gray-600" : "text-gray-500"}
-                >
-                  TypeScript
-                </span>
-                <span
-                  className={isDarkMode ? "text-gray-700" : "text-gray-400"}
-                >
-                  *
-                </span>
-                <span
-                  className={isDarkMode ? "text-gray-600" : "text-gray-500"}
-                >
-                  MongoDB
-                </span>
               </motion.div>
             </motion.div>
           </div>
@@ -276,13 +287,13 @@ const HeroSection = () => {
                 <span
                   className={`${isDarkMode ? "text-white" : "text-gray-900"}`}
                 >
-                  Building Digital
+                  Crafting Digital
                 </span>
                 <br />
                 <span className="text-blue-500 font-medium">experiences</span>
                 <br />
                 <span className={isDarkMode ? "text-white" : "text-gray-900"}>
-                  that matter
+                  That Inspire.
                 </span>
               </motion.h1>
 
@@ -292,8 +303,7 @@ const HeroSection = () => {
                   isDarkMode ? "text-gray-400" : "text-gray-400"
                 } mb-12 font-light leading-relaxed max-w-lg`}
               >
-                I craft beautiful, functional web applications focused on
-                performance, accessibility, and user experience.
+                I build high-performance web applications with clean architecture, accessibility, and seamless user experiences.
               </motion.p>
 
               {/* CTA Buttons - Desktop */}
@@ -323,12 +333,12 @@ const HeroSection = () => {
               {/* Social Links - Desktop */}
               <motion.div
                 variants={itemVariants}
-                className="flex space-x-6 mb-12"
+                className="flex space-x-6 mb-12 mx-15"
               >
                 {[
-                  { icon: FiGithub, href: "#" },
-                  { icon: FiLinkedin, href: "#" },
-                  { icon: Mail, href: "#" },
+                  { icon: FiGithub, href: "https://github.com/EonSyntax" },
+                  { icon: FiLinkedin, href: "https://linkedin.com/in/adebanji-emmanuel" },
+                  { icon: Mail, href: "mailto:eonsyntax@gmail.com" },
                 ].map((social, index) => (
                   <motion.a
                     key={index}
@@ -367,7 +377,7 @@ const HeroSection = () => {
                   <span
                     className={isDarkMode ? "text-gray-700" : "text-gray-400"}
                   >
-                    *
+                    •••
                   </span>
                   <span
                     className={isDarkMode ? "text-gray-600" : "text-gray-500"}
@@ -377,7 +387,7 @@ const HeroSection = () => {
                   <span
                     className={isDarkMode ? "text-gray-700" : "text-gray-400"}
                   >
-                    *
+                    •••
                   </span>
                   <span
                     className={isDarkMode ? "text-gray-600" : "text-gray-500"}
@@ -387,7 +397,7 @@ const HeroSection = () => {
                   <span
                     className={isDarkMode ? "text-gray-700" : "text-gray-400"}
                   >
-                    *
+                    •••
                   </span>
                   <span
                     className={isDarkMode ? "text-gray-600" : "text-gray-500"}
@@ -398,7 +408,7 @@ const HeroSection = () => {
 
                 <motion.div
                   whileHover={{ scale: 1.02 }}
-                  className={`w-80 h-96 rounded-3xl overflow-hidden border-4 ${
+                  className={`w-80 h-110 rounded-3xl overflow-hidden border-4 ${
                     isDarkMode ? "border-gray-800" : "border-gray-300"
                   } shadow-2xl`}
                 >

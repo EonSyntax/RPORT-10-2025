@@ -45,12 +45,21 @@ const AboutSection = () => {
       },
     },
   };
+
+  const scrollToSection = (sectionId) => {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    };
+
+
   return (
     <section
       id="about"
       ref={sectionRef}
       className={`py-24 px-6 ${
-        isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+        isDarkMode ? "bg-gray-950 text-white" : "bg-white text-gray-900"
       } relative overflow-hidden`}
     >
       {/** Background Elements */}
@@ -286,6 +295,7 @@ const AboutSection = () => {
             <motion.button
               whileHover={{ y: -2, scale: 1.05 }}
               whileTap={{ sclae: 0.98 }}
+              onClick={() => scrollToSection("contact")}
               className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-full text-sm uppercase tracking-wider font-medium transition-all duration-300"
             >
               Let's Work Together

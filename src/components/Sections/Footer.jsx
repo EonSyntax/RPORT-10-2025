@@ -2,7 +2,8 @@ import { useRef } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { Mail, Heart, ArrowUp, Code2 } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext";
-import { FiGithub, FiLinkedin, FiTwitter } from "react-icons/fi";
+import { FiGithub, FiLinkedin } from "react-icons/fi";
+import { FaWhatsapp } from "react-icons/fa";
 import { containerVariants, itemVariants } from "../../utils/helper";
 
 // Animated Gradient Line Component
@@ -58,13 +59,13 @@ const Footer = () => {
     {
       name: "LinkedIn",
       icon: FiLinkedin,
-      url: "https://linkedin.com/in/your-profile-name",
+      url: "https://linkedin.com/in/adebanji-emmanuel",
       color: "hover:text-blue-400",
     },
     {
-      name: "Twitter",
-      icon: FiTwitter,
-      url: "https://twitter.com/eonsyntax",
+      name: "Whatsapp",
+      icon: FaWhatsapp,
+      url: "hhttps://wa.me/2348133786763?text=Hello%2C%20I%27m%20contacting%20you%20from%20your%20website!",
       color: "hover:text-sky-400",
     },
     {

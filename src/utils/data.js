@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 
 import { FiGithub, FiLinkedin, FiTwitter } from "react-icons/fi";
+import { FaWhatsapp } from "react-icons/fa";
 
 import PROJECT_IMG_1 from "../assets/images/1.png";
 import PROJECT_IMG_2 from "../assets/images/2.png";
@@ -91,7 +92,7 @@ export const TECH_STACK = [
 ];
 
 export const STATS = [
-  { number: "50+", label: "Projects Completed" },
+  { number: "15+", label: "Projects Completed" },
   { number: "5+", label: "Years of Experience" },
   { number: "20+", label: "Technologies Used" },
   { number: "100%", label: "Client Satisfaction" },
@@ -254,28 +255,35 @@ export const SOCIAL_LINKS = [
   {
     name: "GitHub",
     icon: FiGithub,
-    url: "https://github.com/user",
+    url: "https://github.com/EonSyntax",
     color: "hover:text-gray-400",
     bgColor: "hover:bg-gray-800",
   },
   {
     name: "LinkedIn",
     icon: FiLinkedin,
-    url: "https://linkedin.com/in/user",
+    url: "https://linkedin.com/in/adebanji-emmanuel",
     color: "hover:text-gray-400",
     bgColor: "hover:bg-gray-800",
   },
-  {
-    name: "Twitter",
-    icon: FiTwitter,
-    url: "https://twitter.com/user",
-    color: "hover:text-gray-400",
-    bgColor: "hover:bg-gray-800",
-  },
+  // {
+  //   name: "Twitter",
+  //   icon: FiTwitter,
+  //   url: "https://twitter.com/user",
+  //   color: "hover:text-gray-400",
+  //   bgColor: "hover:bg-gray-800",
+  // },
   {
     name: "Email",
     icon: Mail,
     url: "mailto:eonsyntax@gmail.com",
+    color: "hover:text-gray-400",
+    bgColor: "hover:bg-gray-800",
+  },
+  {
+    name: "Whatsapp",
+    icon: FaWhatsapp,
+    url: "https://wa.me/2348133786763?text=Hello%2C%20I%27m%20contacting%20you%20from%20your%20website!",
     color: "hover:text-gray-400",
     bgColor: "hover:bg-gray-800",
   },

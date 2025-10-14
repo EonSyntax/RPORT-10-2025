@@ -1,6 +1,27 @@
+import { useRef } from "react";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { useTheme } from "../../context/ThemeContext";
 import { AnimatedTestimonials } from "@/components/ui/animated-testimonials";
- 
+
+import { containerVariants, itemVariants } from "@/utils/helper";
+
 export function TestimonialsSection() {
+  const { isDarkMode } = useTheme();
+  const sectionRef = useRef(null);
+  const timelineRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const timelineInView = useInView(timelineRef, {
+    once: true,
+    margin: "-50px",
+  });
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [50, -50]);
+
   const testimonials = [
     {
       quote:
@@ -11,7 +32,7 @@ export function TestimonialsSection() {
     },
     {
       quote:
-      "Implementation was seamless and the results exceeded our expectations. The platform's flexibility is remarkable.",
+        "Implementation was seamless and the results exceeded our expectations. The platform's flexibility is remarkable.",
       name: "Michael Rodriguez",
       designation: "CTO at InnovateSphere",
       src: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=3560&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -41,14 +62,61 @@ export function TestimonialsSection() {
   return (
     <section
       id="testimonials"
-      className="py-24 px-4 relative min-h-screen bg-muted/30 "
+      ref={sectionRef}
+      className={`py-24 px-6 ${
+        isDarkMode ? "bg-gray-950 text-white" : "bg-white text-gray-900"
+      } relative overflow-hidden`}
     >
-      <div className="container max-w-5xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12">
-          What <span className="text-primary">Clients Say</span>
-        </h2>
+      {/** Background Elements */}
+      <motion.div style={{ y }} className="absolute inset-0 overflow-hidden">
+        <div
+          className={`absolute top-40 right-1/3 w-80 h-80 rounded-full blur-3xl opacity-5 ${
+            isDarkMode ? "bg-blue-500" : "bg-blue-400"
+          }`}
+        />
+        <div
+          className={`absolute bottom-20 left-1/3 w-96 h-96 rounded-full blur-3xl opacity-5 ${
+            isDarkMode ? "bg-purple-500" : "bg-purple-400"
+          }`}
+        />
+      </motion.div>
+
+      <div className="max-w-6xl mx-auto relative z-10">
+        {/** Section Header */}
+        <motion.div
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={containerVariants}
+          className="text-center mb-8"
+        >
+          <motion.div
+            variants={itemVariants}
+            className={`text-sm uppercase tracking-widest ${
+              isDarkMode ? "text-gray-500" : "text-gray-600"
+            } mb-4`}
+          >
+            Testimonials
+          </motion.div>
+
+          <motion.h2
+            variants={itemVariants}
+            className="text-3xl md:text-5xl font-light mb-6"
+          >
+            Clients
+            <span className="text-blue-500 font-medium"> Say</span>
+          </motion.h2>
+
+          <motion.p
+            variants={itemVariants}
+            className={`text-xl max-w-2xl mx-auto ${
+              isDarkMode ? "text-gray-400" : "text-gray-600"
+            }`}
+          >
+            Here’s what clients and collaborators have said about working with me.
+          </motion.p>
+        </motion.div>
         <div className="text-left">
-        <AnimatedTestimonials testimonials={testimonials} />
+          <AnimatedTestimonials testimonials={testimonials} />
         </div>
       </div>
     </section>
