@@ -26,36 +26,32 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <motion.div className="flex items-center space-x-2">
-
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          animate={{ rotate: 360 }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-          className=""
-        >
-          <Code2 size={34} className="text-blue-500" />{" "}
-        </motion.div>
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            animate={{ rotate: 360 }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            className=""
+          >
+            <Code2 size={34} className="text-blue-500" />{" "}
+          </motion.div>
           <span
             className={`text-lg ml-1 ${
               isDarkMode
                 ? "text-gray-400 hover:text-white"
                 : "text-gray-600 hover:text-gray-900"
-              }`}
-              >
+            }`}
+          >
             Eon Syntax
           </span>
         </motion.div>
 
-            
-
-
         {/* Desktop Navigation */}
         <div className="hidden md:flex item-center space-x-8">
-          {["Home", "Skills", "Work", "About", "Contact", "Themes"].map(
+          {["Home", "Skills", "Work", "About", "Contact", "Theme"].map(
             (item) => (
               <motion.button
                 key={item}
