@@ -35,7 +35,7 @@ export const AnimatedTestimonials = ({
   return (
     <div
       className="mx-auto max-w-sm px-4 py-20 font-sans antialiased md:max-w-4xl md:px-8 lg:px-12">
-      <div className="relative grid grid-cols-1 gap-20 md:grid-cols-2">
+      <div className="relative grid grid-cols-1 gap-8 sm:gap-10 lg:gap-20 md:grid-cols-2">
         <div>
           <div className="relative h-80 w-full">
             <AnimatePresence>
@@ -106,7 +106,7 @@ export const AnimatedTestimonials = ({
             <p className="text-sm text-gray-500 dark:text-neutral-500">
               {testimonials[active].designation}
             </p>
-            <motion.p className="mt-8 text-lg text-gray-500 dark:text-neutral-300">
+            <motion.p className="mt-6 text-lg text-gray-500 dark:text-neutral-300">
               {testimonials[active].quote.split(" ").map((word, index) => (
                 <motion.span
                   key={index}
@@ -131,18 +131,20 @@ export const AnimatedTestimonials = ({
               ))}
             </motion.p>
           </motion.div>
-          <div className="flex gap-4 pt-12 md:pt-0">
+          <div className="flex justify-center items-center gap-4 pt-8 md:pt-0">
             <button
+              whileHover={{ y: -2, scale: 1.05 }}
+              whileTap={{ sclae: 0.98 }}
               onClick={handlePrev}
-              className="group/button flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 dark:bg-neutral-800">
+              className="group/button flex h-7 w-7 items-center justify-center rounded-full dark:bg-blue-500 hover:dark:bg-blue-600">
               <IconArrowLeft
-                className="h-5 w-5 text-black transition-transform duration-300 group-hover/button:rotate-12 dark:text-neutral-400" />
+                className="h-5 w-5 transition-transform duration-300 group-hover/button:rotate-12 dark:text-white-400" />
             </button>
             <button
               onClick={handleNext}
-              className="group/button flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 dark:bg-neutral-800">
+              className="group/button flex h-7 w-7 items-center justify-center rounded-full dark:bg-blue-500 hover:dark:bg-blue-600">
               <IconArrowRight
-                className="h-5 w-5 text-black transition-transform duration-300 group-hover/button:-rotate-12 dark:text-neutral-400" />
+                className="h-5 w-5 transition-transform duration-300 group-hover/button:-rotate-12 dark:text-white-400" />
             </button>
           </div>
         </div>
