@@ -3,7 +3,7 @@ import { ArrowDown, Mail } from "lucide-react";
 import { FiGithub, FiLinkedin } from "react-icons/fi";
 import { useTheme } from "@/context/ThemeContext";
 
-import PROFILE_PIC from "@/assets/images/profile-pic.png";
+import PROFILE_PIC from "@/assets/images/profile-pic.jpg";
 import { containerVariants, itemVariants } from "@/utils/helper";
 
 const HeroSection = () => {
@@ -89,8 +89,6 @@ const HeroSection = () => {
               variants={containerVariants}
               className="text-center"
             >
-              
-
               {/* Content - Mobile */}
               <motion.div
                 variants={textVariants}
@@ -125,11 +123,11 @@ const HeroSection = () => {
                   isDarkMode ? "text-gray-400" : "text-gray-600"
                 } max-w-xl mx-auto font-light leading-relaxed`}
               >
-                I build high-performance web applications with clean architecture, accessibility, and seamless user experiences.
+                I build high-performance web applications with clean
+                architecture, accessibility, and seamless user experiences.
               </motion.p>
 
-
-                {/* Tech Stack - Mobile */}
+              {/* Tech Stack - Mobile */}
               <motion.div
                 variants={containerVariants}
                 className="flex justify-center items-center space-x-6 text-xs uppercase tracking-widest flex-wrap mb-2"
@@ -171,7 +169,7 @@ const HeroSection = () => {
                 </span>
               </motion.div>
 
-                {/* Profile Image - Mobile*/}
+              {/* Profile Image - Mobile*/}
               <motion.div variants={imageVariants} className="mb-18">
                 <div className="w-50 h-70 mx-auto relative">
                   <motion.div
@@ -197,14 +195,14 @@ const HeroSection = () => {
                     className="absolute -inset-1 rounded-2xl border border-blue-500/20"
                   />
                   <motion.div
-                  animate={{ rotate: -360 }}
-                  transition={{
-                    duration: 20,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                  className="absolute -inset-1 rounded-2xl border border-purple-500/20"
-                />
+                    animate={{ rotate: -360 }}
+                    transition={{
+                      duration: 20,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                    className="absolute -inset-1 rounded-2xl border border-purple-500/20"
+                  />
                 </div>
               </motion.div>
 
@@ -303,7 +301,8 @@ const HeroSection = () => {
                   isDarkMode ? "text-gray-400" : "text-gray-400"
                 } mb-12 font-light leading-relaxed max-w-lg`}
               >
-                I build high-performance web applications with clean architecture, accessibility, and seamless user experiences.
+                I build high-performance web applications with clean
+                architecture, accessibility, and seamless user experiences.
               </motion.p>
 
               {/* CTA Buttons - Desktop */}
@@ -337,7 +336,10 @@ const HeroSection = () => {
               >
                 {[
                   { icon: FiGithub, href: "https://github.com/EonSyntax" },
-                  { icon: FiLinkedin, href: "https://linkedin.com/in/adebanji-emmanuel" },
+                  {
+                    icon: FiLinkedin,
+                    href: "https://linkedin.com/in/adebanji-emmanuel",
+                  },
                   { icon: Mail, href: "mailto:eonsyntax@gmail.com" },
                 ].map((social, index) => (
                   <motion.a
