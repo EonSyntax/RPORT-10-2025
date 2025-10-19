@@ -21,7 +21,7 @@ export default defineConfig({
       manifest: {
         name: "EonSyntax Portfolio",
         short_name: "Portfolio",
-        description: "My React portfolio PWA",
+        description: "My RPort-10-2025 PWA",
         theme_color: "hsl(250, 65%, 65%)",
         background_color: "#ffffff",
         display: "standalone",
