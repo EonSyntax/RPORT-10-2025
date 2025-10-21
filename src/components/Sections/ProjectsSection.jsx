@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { ArrowUpRight, Code2, Globe, Zap, Users } from "lucide-react";
 
@@ -11,6 +11,14 @@ const ProjectsSection = () => {
   const { isDarkMode } = useTheme();
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/projects/")
+      .then((res) => res.json())
+      .then((data) => setProjects(data))
+      .catch((err) => console.error("Error fetching projects:", err));
+  }, []);
 
   return (
     <section
@@ -77,7 +85,7 @@ const ProjectsSection = () => {
           variants={containerVariants}
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {PROJECTS.map((project, index) => (
+          {projects.map((project, index) => (
             <ProjectCard
               key={project.id}
               project={project}

@@ -11,10 +11,12 @@ export const AnimatedTestimonials = ({
   const [active, setActive] = useState(0);
 
   const handleNext = () => {
+    if (!testimonials || testimonials.length === 0) return;
     setActive((prev) => (prev + 1) % testimonials.length);
   };
 
   const handlePrev = () => {
+    if (!testimonials || testimonials.length === 0) return;
     setActive((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
 
@@ -23,15 +25,28 @@ export const AnimatedTestimonials = ({
   };
 
   useEffect(() => {
-    if (autoplay) {
+    if (autoplay && testimonials && testimonials.length > 0) {
       const interval = setInterval(handleNext, 5000);
       return () => clearInterval(interval);
     }
-  }, [autoplay]);
+  }, [autoplay, testimonials]);
 
   const randomRotateY = () => {
     return Math.floor(Math.random() * 21) - 10;
   };
+
+
+  if (!testimonials || testimonials.length === 0) {
+    return (
+      <div className="text-center py-20 text-gray-500 dark:text-gray-400 relative">
+        No testimonials available.
+      </div>
+    );
+  }
+
+
+
+
   return (
     <div
       className="mx-auto max-w-sm px-4 py-20 font-sans antialiased md:max-w-4xl md:px-8 lg:px-12">
@@ -71,7 +86,7 @@ export const AnimatedTestimonials = ({
                   className="absolute inset-0 origin-bottom">
                   <img
                     src={testimonial.src}
-                    alt={testimonial.name}
+                    alt={testimonial.name || "Testimonial"}
                     width={500}
                     height={500}
                     draggable={false}

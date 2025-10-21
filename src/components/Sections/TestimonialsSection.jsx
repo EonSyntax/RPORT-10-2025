@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useTheme } from "../../context/ThemeContext";
 import { AnimatedTestimonials } from "@/components/ui/animated-testimonials";
@@ -22,43 +22,65 @@ export function TestimonialsSection() {
 
   const y = useTransform(scrollYProgress, [0, 1], [50, -50]);
 
-  const testimonials = [
-    {
-      quote:
-        "EonSyntax built our platform with precision and speed — truly a top Nigerian full-stack talent.",
-      name: "Sarah Chen",
-      designation: "Product Manager at TechFlow",
-      src: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      quote:
-        "Dependable developer! Always delivers elegant, functional web solutions on time.",
-      name: "Michael Rodriguez",
-      designation: "CTO at InnovateSphere",
-      src: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=3560&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      quote:
-        "My startup’s website looked world-class within days — outstanding creativity!",
-      name: "Emily Watson",
-      designation: "Operations Director at CloudScale",
-      src: "https://images.unsplash.com/photo-1623582854588-d60de57fa33f?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      quote:
-        "Outstanding support and robust features. It's rare to find a developer that delivers on all its promises.",
-      name: "James Kim",
-      designation: "Engineering Lead at DataPro",
-      src: "https://images.unsplash.com/photo-1636041293178-808a6762ab39?q=80&w=3464&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      quote:
-        "Professional, detail-oriented, and communicates perfectly. Highly recommended.",
-      name: "Lisa Thompson",
-      designation: "VP of Technology at FutureNet",
-      src: "https://images.unsplash.com/photo-1624561172888-ac93c696e10c?q=80&w=2592&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-  ];
+  const [testimonials, setTestimonials] = useState([]);
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/testimonials/")
+      .then((res) => res.json())
+      .then((data) => {
+        // Prepend backend base URL to src if needed
+        const updatedData = data.map((item) => {
+          // Handle cases where item.image_url is missing or null
+          const imageUrl = item.image_url
+            ? item.image_url.startsWith("http")
+              ? item.image_url
+              : `http://127.0.0.1:8000${item.image_url}`
+            : "/default-avatar.jpg"; // optional fallback
+
+          return { ...item, src: imageUrl };
+        });
+        setTestimonials(updatedData);
+      })
+      .catch((err) => console.error("Error fetching testimonials:", err));
+  }, []);
+
+  // const testimonials = [
+  //   {
+  //     quote:
+  //       "EonSyntax built our platform with precision and speed — truly a top Nigerian full-stack talent.",
+  //     name: "Sarah Chen",
+  //     designation: "Product Manager at TechFlow",
+  //     src: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   },
+  //   {
+  //     quote:
+  //       "Dependable developer! Always delivers elegant, functional web solutions on time.",
+  //     name: "Michael Rodriguez",
+  //     designation: "CTO at InnovateSphere",
+  //     src: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=3560&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   },
+  //   {
+  //     quote:
+  //       "My startup’s website looked world-class within days — outstanding creativity!",
+  //     name: "Emily Watson",
+  //     designation: "Operations Director at CloudScale",
+  //     src: "https://images.unsplash.com/photo-1623582854588-d60de57fa33f?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   },
+  //   {
+  //     quote:
+  //       "Outstanding support and robust features. It's rare to find a developer that delivers on all its promises.",
+  //     name: "James Kim",
+  //     designation: "Engineering Lead at DataPro",
+  //     src: "https://images.unsplash.com/photo-1636041293178-808a6762ab39?q=80&w=3464&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   },
+  //   {
+  //     quote:
+  //       "Professional, detail-oriented, and communicates perfectly. Highly recommended.",
+  //     name: "Lisa Thompson",
+  //     designation: "VP of Technology at FutureNet",
+  //     src: "https://images.unsplash.com/photo-1624561172888-ac93c696e10c?q=80&w=2592&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   },
+  // ];
   return (
     <section
       id="testimonials"
@@ -112,7 +134,8 @@ export function TestimonialsSection() {
               isDarkMode ? "text-gray-400" : "text-gray-600"
             }`}
           >
-            Here’s what clients and collaborators have said about working with me.
+            Here’s what clients and collaborators have said about working with
+            me.
           </motion.p>
         </motion.div>
         <div className="text-left">
