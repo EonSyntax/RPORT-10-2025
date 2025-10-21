@@ -25,7 +25,7 @@ export function TestimonialsSection() {
   const [testimonials, setTestimonials] = useState([]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/testimonials/")
+    fetch("https://rportb.onrender.com/api/testimonials/")
       .then((res) => res.json())
       .then((data) => {
         // Prepend backend base URL to src if needed
@@ -34,7 +34,7 @@ export function TestimonialsSection() {
           const imageUrl = item.image_url
             ? item.image_url.startsWith("http")
               ? item.image_url
-              : `http://127.0.0.1:8000${item.image_url}`
+              : `https://rportb.onrender.com${item.image_url}`
             : "/default-avatar.jpg"; // optional fallback
 
           return { ...item, src: imageUrl };
