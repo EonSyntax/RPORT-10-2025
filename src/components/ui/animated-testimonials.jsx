@@ -39,7 +39,7 @@ export const AnimatedTestimonials = ({
   if (!testimonials || testimonials.length === 0) {
     return (
       <div className="text-center py-20 text-gray-500 dark:text-gray-400 relative">
-        No testimonials available.
+        Please Wait Testimonials Loading....
       </div>
     );
   }

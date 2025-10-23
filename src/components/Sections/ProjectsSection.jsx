@@ -1,11 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { ArrowUpRight, Code2, Globe, Zap, Users } from "lucide-react";
-
 import { useTheme } from "../../context/ThemeContext";
-import { PROJECTS } from "../../utils/data";
 import { containerVariants, itemVariants } from "../../utils/helper";
 import ProjectCard from "../ProjectCard";
+import { PROJECTS } from "../../utils/data";
+
+
 
 const ProjectsSection = () => {
   const { isDarkMode } = useTheme();
@@ -73,27 +73,33 @@ const ProjectsSection = () => {
               isDarkMode ? "text-gray-400" : "text-gray-600"
             } max-w-2xl mx-auto font-light`}
           >
-            A collection of Projects that showcase my expertise in building
+            A collection of projects that showcase my expertise in building
             modern web applications and solving complex problems.
           </motion.p>
         </motion.div>
 
-        {/** Projects Grid */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          variants={containerVariants}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          {projects.map((project, index) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              index={index}
-              isDarkMode={isDarkMode}
-            />
-          ))}
-        </motion.div>
+        {/** 🔹 Conditional Rendering (Projects or Loading) */}
+        {projects.length === 0 ? (
+          <div className="text-center py-20 text-gray-500 dark:text-gray-400">
+            Please Wait, Projects Loading...
+          </div>
+        ) : (
+          <motion.div
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            variants={containerVariants}
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            {projects.map((project, index) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                index={index}
+                isDarkMode={isDarkMode}
+              />
+            ))}
+          </motion.div>
+        )}
       </div>
     </section>
   );
