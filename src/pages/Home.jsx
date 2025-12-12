@@ -1,5 +1,6 @@
 
-import { StarBackground } from "@/components/StarBackground";
+import { StarBackground } from "@/components/backgrounds/StarBackground";
+import BallpitBackground from "@/components/backgrounds/BallpitBackground";
 import { ThemeProvider } from "@/context/ThemeContext";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/Sections/HeroSection";
@@ -17,6 +18,16 @@ export const Home = () => {
 
         {/* Background Effects */}
         <StarBackground />
+        {/* <BallpitBackground /> */}
+        {/* <div style={{position: 'relative', overflow: 'hidden', minHeight: '500px', maxHeight: '500px', width: '100%'}}>
+          <BallpitBackground
+            count={200}
+            gravity={0.7}
+            friction={0.8}
+            wallBounce={0.95}
+            followCursor={true}
+          />
+        </div> */}
 
         {/* Navbar */}
         <Navbar />
