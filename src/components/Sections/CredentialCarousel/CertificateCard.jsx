@@ -8,15 +8,14 @@ import { useTheme } from "../../../context/ThemeContext";
  * @component
  * @param {Object} props
  * @param {Object} props.certificate - Certificate object containing:
- *   - id: string
- *   - credentialName: string
- *   - credentialId: string
- *   - issuingOrganization: string
- *   - issueDate: string (ISO date)
- *   - expiryDate?: string (ISO date, optional)
- *   - certificateImage: string (URL)
- *   - organizationLogo: string (URL)
- *   - credentialUrl: string (URL)
+ *   - id: number
+ *   - organization_name: string
+ *   - certificate_name: string
+ *   - certificate_id: string
+ *   - issue_date: string (ISO date)
+ *   - expiry_date?: string (ISO date, optional)
+ *   - image_url: string (URL)
+ *   - verify_url: string (URL)
  * @returns {JSX.Element}
  */
 const CertificateCard = ({ certificate }) => {
@@ -33,9 +32,9 @@ const CertificateCard = ({ certificate }) => {
       {/* Certificate Image */}
       <div className="relative h-48 overflow-hidden">
         <img
-          src={certificate.certificateImage}
-          alt={certificate.credentialName}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          src={certificate.image_url}
+          alt={certificate.certificate_name}
+          className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-linear-to-t from-primary/80 via-primary/20 to-transparent" />
 
@@ -46,8 +45,8 @@ const CertificateCard = ({ certificate }) => {
 
         {/* Organization */}
         <div className="absolute bottom-4 left-4 right-4">
-          <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-card/90 backdrop-blur-sm rounded-full text-sm font-medium text-white">
-            {certificate.issuingOrganization}
+          <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-linear-to-r from-blue-600 to-purple-600 rounded-full text-sm font-medium text-white shadow-lg">
+            {certificate.organization_name}
           </span>
         </div>
       </div>
@@ -55,17 +54,19 @@ const CertificateCard = ({ certificate }) => {
       {/* Content */}
       <div className="flex flex-col flex-1 p-5 space-y-4">
         <h3 className="text-lg font-semibold text-blue-500 line-clamp-2 min-h-14">
-          {certificate.credentialName}
+          {certificate.certificate_name}
         </h3>
 
         <div className="space-y-3 flex-1">
           {/* Credential ID */}
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Hash className="w-4 h-4 text-orange-400" />
-            <span className={`font-mono text-xs truncate ${
-              isDarkMode ? "text-white" : "text-black"
-            }`}>
-              {certificate.credentialId}
+            <span
+              className={`font-mono text-xs truncate ${
+                isDarkMode ? "text-white" : "text-black"
+              }`}
+            >
+              {certificate.certificate_id}
             </span>
           </div>
 
@@ -73,13 +74,15 @@ const CertificateCard = ({ certificate }) => {
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Calendar className="w-4 h-4 text-orange-400" />
             <span className={`${isDarkMode ? "text-white" : "text-black"}`}>
-              {formatDate(certificate.issueDate)}
-              {certificate.expiryDate && (
-                <span className={`text-muted-foreground/70 ${
-              isDarkMode ? "text-white" : "text-black"
-            }`}>
+              {formatDate(certificate.issue_date)}
+              {certificate.expiry_date && (
+                <span
+                  className={`text-muted-foreground/70 ${
+                    isDarkMode ? "text-white" : "text-black"
+                  }`}
+                >
                   {" → "}
-                  {formatDate(certificate.expiryDate)}
+                  {formatDate(certificate.expiry_date)}
                 </span>
               )}
             </span>
@@ -88,7 +91,7 @@ const CertificateCard = ({ certificate }) => {
 
         {/* Verify Button */}
         <a
-          href={certificate.credentialUrl}
+          href={certificate.verify_url}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-lg bg-blue-500 text-primary-foreground font-medium text-sm hover:bg-primary/90 transition-colors duration-300 group/btn"

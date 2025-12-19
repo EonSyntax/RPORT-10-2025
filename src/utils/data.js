@@ -299,10 +299,12 @@ export const CONTACT_INFO = [
     icon: Mail,
     label: "Email",
     value: "eonsyntax@gmail.com",
+    href: "mailto:eonsyntax@gmail.com",
   },
   {
     icon: Phone,
     label: "Phone",
     value: "+234 813 378 6763",
+    href: "tel:+2348133786763",
   },
 ];

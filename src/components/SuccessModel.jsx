@@ -1,7 +1,14 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle, X, Sparkles } from "lucide-react";
 
-const SuccessModel = ({ showSuccess, setShowSuccess, isDarkMode }) => {
+const SuccessModel = ({
+  showSuccess,
+  setShowSuccess,
+  isDarkMode,
+  title,
+  body,
+  isError,
+}) => {
   return (
     <AnimatePresence>
       {showSuccess && (
@@ -37,9 +44,15 @@ const SuccessModel = ({ showSuccess, setShowSuccess, isDarkMode }) => {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.2, type: "spring" }}
-              className="mx-auto w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mb-6"
+              className={`mx-auto w-16 h-16 rounded-full flex items-center justify-center mb-6 ${
+                isError ? "bg-red-500" : "bg-green-500"
+              }`}
             >
-              <CheckCircle size={32} className="text-white" />
+              {isError ? (
+                <X size={32} className="text-white" />
+              ) : (
+                <CheckCircle size={32} className="text-white" />
+              )}
             </motion.div>
 
             <motion.h3
@@ -48,7 +61,7 @@ const SuccessModel = ({ showSuccess, setShowSuccess, isDarkMode }) => {
               transition={{ delay: 0.3 }}
               className="text-2xl font-medium mb-2"
             >
-              Message Sent!
+              {title || (isError ? "Error" : "Message Sent!")}
             </motion.h3>
 
             <motion.p
@@ -59,7 +72,10 @@ const SuccessModel = ({ showSuccess, setShowSuccess, isDarkMode }) => {
                 isDarkMode ? "text-gray-400" : "text-gray-600"
               } mb-6`}
             >
-              Thank you for reaching out! I'll get back to you within 24 hours.
+              {body ||
+                (isError
+                  ? "Something went wrong."
+                  : "Thank you for reaching out! I'll get back to you within 24 hours.")}
             </motion.p>
 
             <motion.div
@@ -68,7 +84,7 @@ const SuccessModel = ({ showSuccess, setShowSuccess, isDarkMode }) => {
               transition={{ delay: 0.5 }}
               className="flex justify-center"
             >
-              <Sparkles size={24} className="text-yellow-500" />
+              {!isError && <Sparkles size={24} className="text-yellow-500" />}
             </motion.div>
           </motion.div>
         </motion.div>

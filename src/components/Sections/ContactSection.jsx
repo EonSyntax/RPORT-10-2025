@@ -1,11 +1,16 @@
 import { useState, useRef } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { Send } from "lucide-react";
+import emailjs from "@emailjs/browser";
 import { useTheme } from "../../context/ThemeContext";
 import { CONTACT_INFO, SOCIAL_LINKS } from "../../utils/data";
 import { containerVariants, itemVariants } from "../../utils/helper";
 import TextInput from "@/components/Input/TextInput";
 import SuccessModel from "../SuccessModel";
+import ScheduleCallModal from "@/components/ScheduleCallModal";
+
+// Initialize EmailJS (replace with your Public Key from EmailJS dashboard)
+emailjs.init("sWeT-qfBSzUx_jYLi");
 
 const ContactSection = () => {
   const { isDarkMode } = useTheme();
@@ -16,6 +21,11 @@ const ContactSection = () => {
   });
   const [showSuccess, setShowSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalBody, setModalBody] = useState("");
+  const [modalIsError, setModalIsError] = useState(false);
+  const [showSchedule, setShowSchedule] = useState(false);
 
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
@@ -37,15 +47,60 @@ const ContactSection = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setErrorMessage("");
 
-    // Simulate API call (replace this with real API integration)
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // Client-side validation
+    const nameValid = formData.name && formData.name.trim().length > 0;
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email || "");
+    const messageValid = formData.message && formData.message.trim().length > 0;
 
-    setIsSubmitting(false);
+    if (!nameValid || !emailValid || !messageValid) {
+      setIsSubmitting(false);
+      setModalIsError(true);
+      setModalTitle("Error Input!");
+      setModalBody("Sorry — please provide a valid name, email, and message.");
+      setShowSuccess(true);
+      return;
+    }
+    try {
+      // Send email using EmailJS
+      const response = await emailjs.send(
+        "service_id09y6r", // Replace with your EmailJS Service ID
+        "template_fz8m0qa", // Replace with your EmailJS Template ID
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+          to_email: "eonsyntax@gmail.com",
+        }
+      );
+
+      if (response.status === 200) {
+        setModalIsError(false);
+        setModalTitle("Message Sent!");
+        setModalBody(
+          "Thank you for reaching out! I'll get back to you within 24 hours."
+        );
+        setShowSuccess(true);
+        setFormData({ name: "", email: "", message: "" });
+
+        // Auto hide success modal after 3 seconds
+        setTimeout(() => setShowSuccess(false), 3000);
+      }
+    } catch (error) {
+      console.error("Email sending failed:", error);
+      setErrorMessage("Failed to send message. Please try again.");
+      // Still show error but can retry
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleScheduleSuccess = ({ title, body }) => {
+    setModalIsError(false);
+    setModalTitle(title || "Call Request Sent");
+    setModalBody(body || "I'll follow up to confirm the call.");
     setShowSuccess(true);
-    setFormData({ name: "", email: "", message: "" });
-
-    // Auto hide success modal after 3 seconds
     setTimeout(() => setShowSuccess(false), 3000);
   };
 
@@ -159,6 +214,12 @@ const ContactSection = () => {
                   }
                 />
 
+                {errorMessage && (
+                  <div className="bg-red-500/10 border border-red-500 text-red-500 px-4 py-3 rounded-lg text-sm">
+                    {errorMessage}
+                  </div>
+                )}
+
                 <motion.button
                   disabled={isSubmitting}
                   whileHover={{ y: -2, scale: 1.02 }}
@@ -189,152 +250,192 @@ const ContactSection = () => {
               </div>
             </motion.div>
 
-{/** Bottom CTA */}
-        <motion.div
-            initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          variants={containerVariants}
-          className="text-center mt-10"
-        >
+            {/** Bottom CTA */}
             <motion.div
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+              variants={containerVariants}
+              className="text-center mt-10"
+            >
+              <motion.div
                 variants={itemVariants}
                 className={`max-w-2xl mx-auto p-8 rounded-2xl border ${
-                    isDarkMode
-                        ? "bg-gray-800/30 border-gray-700"
-                        : "bg-gray-50/50 border-gray-200"
+                  isDarkMode
+                    ? "bg-gray-800/30 border-gray-700"
+                    : "bg-gray-50/50 border-gray-200"
                 }`}
-            >
-                <h3 className="text-xl font-medium mb-4">Prefer a quick call?</h3>
+              >
+                <h3 className="text-xl font-medium mb-4">
+                  Prefer a quick call?
+                </h3>
                 <p
-                    className={`${
-                        isDarkMode ? "text-gray-400" : "text-gray-600"
-                    } mb-6`}
+                  className={`${
+                    isDarkMode ? "text-gray-400" : "text-gray-600"
+                  } mb-6`}
                 >
-                    Sometimes a conversation is worth a thousand messages. Fell free
-                    to schedule a call to discuss your project.
+                  Sometimes a conversation is worth a thousand messages. Fell
+                  free to schedule a call to discuss your project.
                 </p>
                 <motion.button
-                    whileHover={{ y: -2, scale: 1.05 }}
-                    whileTap={{ scale: 0.98 }}
-                    className={`px-6 py-3 rounded-full border font-medium transition-all duration-300 ${
-                        isDarkMode 
-                            ? "border-gray-600 hover:border-blue-500 hover:text-blue-400" 
-                            : "border-gray-300 hover:border-blue-500 hover:text-blue-600"
-                    }`}
+                  whileHover={{ y: -2, scale: 1.05 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`px-6 py-3 rounded-full border font-medium transition-all duration-300 ${
+                    isDarkMode
+                      ? "border-gray-600 hover:border-blue-500 hover:text-blue-400"
+                      : "border-gray-300 hover:border-blue-500 hover:text-blue-600"
+                  }`}
+                  onClick={() => setShowSchedule(true)}
                 >
-                    Schedule a Call
+                  Schedule a Call
                 </motion.button>
+              </motion.div>
             </motion.div>
-        </motion.div>
-
           </motion.div>
 
-            {/** Contact Info & Social Links */}
-            <motion.div
-                initial="hidden"
-                animate={isInView ? "visible" : "hidden"}
-                variants={containerVariants}
-                className="space-y-8"
-            >
-                {/** Contact Information */}
-                <motion.div variants={itemVariants}>
-                    <h3 className="text-2xl font-medium mb-6">Contact Information</h3>
-                    <div className="space-y-4">
-                        {CONTACT_INFO.map((info, index) => (
-                            <motion.div
-                                key={info.label}
-                                variants={itemVariants}
-                                whileHover={{ x: 4 }}
-                                className={`flex items-center space-x-4 p-4 rounded-xl ${
-                                    isDarkMode 
-                                        ? "bg-gray-800/30 hover:bg-gray-800/50"
-                                        : "bg-gray-50/50 hover:bg-gray-100/50"
-                                } transition-all duration-300`}
-                            >
-                                <div
-                                    className={`p-3 rounded-lg ${
-                                        isDarkMode ? "bg-gray-700" : "bg-white"
-                                    }`}
-                                >
-                                    <info.icon size={20} className="text-blue-500" />
-                                </div>
-                                <div>
-                                    <div
-                                        className={`text-sm ${
-                                            isDarkMode ? "text-gray-500" : "text-gray-600"
-                                        }`}
-                                    >
-                                        {info.label}
-                                    </div>
-                                    <div
-                                        className="font-medium">{info.value}</div>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </motion.div>
-
-                {/** Social Links */}
-                <motion.div variants={itemVariants}>
-                    <h3 className="text-xl font-medium mb-6">Follow Me</h3>
-                    <div className="grid grid-cols-2 gap-4">
-                        {SOCIAL_LINKS.map((social) => (
-                            <motion.a
-                                key={social.name}
-                                href={social.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                whileHover={{ scale: 1.05, y: -2 }}
-                                whileTap={{ scale: 0.95 }}
-                                className={`flex items-center space-x-3 p-4 rounded-xl border transition-all duration-300 ${
-                                    isDarkMode
-                                        ? "bg-gray-800/50 border-gray-700 hover:border-gray-600"
-                                        : "bg-white/80 border-gray-200 hover:border-gray-300"
-                                } ${social.bgColor} ${social.color}`}
-                            >
-                                <social.icon size={20} />
-                                <span className="font-medium">{social.name}</span>
-                            </motion.a>
-                        ))}
-                    </div>
-                </motion.div>
-
-                {/** Availability Status */}
-                <motion.div
-                    variants={itemVariants}
-                    className={`p-6 rounded-xl border ${
-                        isDarkMode
-                            ? "bg-green-500/10 border-green-500/20"
-                            : "bg-green-50 border-green-200"
-                    }`}
-                >
-                    <div className="flex items-center space-x-3 mb-2">
-                        <div className="1-3 h-3 bg-green-500 rounded-full animate-pulse" />
-                        <span className="font-medium text-green-500">
-                            Available for work
-                        </span>
-                    </div>
-                    <p
-                        className={`text-sm ${
-                            isDarkMode ? "text-gray-400" : "text-gray-600"
+          {/** Contact Info & Social Links */}
+          <motion.div
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            variants={containerVariants}
+            className="space-y-8"
+          >
+            {/** Contact Information */}
+            <motion.div variants={itemVariants}>
+              <h3 className="text-2xl font-medium mb-6">Contact Information</h3>
+              <div className="space-y-4">
+                {CONTACT_INFO.map((info, index) => {
+                  const content = (
+                    <>
+                      <div
+                        className={`p-3 rounded-lg ${
+                          isDarkMode ? "bg-gray-700" : "bg-white"
                         }`}
+                      >
+                        <info.icon size={20} className="text-blue-500" />
+                      </div>
+                      <div>
+                        <div
+                          className={`text-sm ${
+                            isDarkMode ? "text-gray-500" : "text-gray-600"
+                          }`}
+                        >
+                          {info.label}
+                        </div>
+                        <div className="font-medium">{info.value}</div>
+                      </div>
+                    </>
+                  );
+
+                  if (info.href) {
+                    return (
+                      <motion.a
+                        key={info.label}
+                        href={info.href}
+                        target={
+                          info.href.startsWith("tel:") ||
+                          info.href.startsWith("mailto:")
+                            ? "_self"
+                            : "_blank"
+                        }
+                        rel="noopener noreferrer"
+                        variants={itemVariants}
+                        whileHover={{ x: 4 }}
+                        className={`flex items-center space-x-4 p-4 rounded-xl ${
+                          isDarkMode
+                            ? "bg-gray-800/30 hover:bg-gray-800/50"
+                            : "bg-gray-50/50 hover:bg-gray-100/50"
+                        } transition-all duration-300 cursor-pointer`}
+                      >
+                        {content}
+                      </motion.a>
+                    );
+                  }
+
+                  return (
+                    <motion.div
+                      key={info.label}
+                      variants={itemVariants}
+                      whileHover={{ x: 4 }}
+                      className={`flex items-center space-x-4 p-4 rounded-xl ${
+                        isDarkMode
+                          ? "bg-gray-800/30 hover:bg-gray-800/50"
+                          : "bg-gray-50/50 hover:bg-gray-100/50"
+                      } transition-all duration-300`}
                     >
-                        I'm currently available for freelance and full-time
-                        oppurtunities.
-                    </p>
-                </motion.div>
+                      {content}
+                    </motion.div>
+                  );
+                })}
+              </div>
             </motion.div>
 
+            {/** Social Links */}
+            <motion.div variants={itemVariants}>
+              <h3 className="text-xl font-medium mb-6">Follow Me</h3>
+              <div className="grid grid-cols-2 gap-4">
+                {SOCIAL_LINKS.map((social) => (
+                  <motion.a
+                    key={social.name}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`flex items-center space-x-3 p-4 rounded-xl border transition-all duration-300 ${
+                      isDarkMode
+                        ? "bg-gray-800/50 border-gray-700 hover:border-gray-600"
+                        : "bg-white/80 border-gray-200 hover:border-gray-300"
+                    } ${social.bgColor} ${social.color}`}
+                  >
+                    <social.icon size={20} />
+                    <span className="font-medium">{social.name}</span>
+                  </motion.a>
+                ))}
+              </div>
+            </motion.div>
+
+            {/** Availability Status */}
+            <motion.div
+              variants={itemVariants}
+              className={`p-6 rounded-xl border ${
+                isDarkMode
+                  ? "bg-green-500/10 border-green-500/20"
+                  : "bg-green-50 border-green-200"
+              }`}
+            >
+              <div className="flex items-center space-x-3 mb-2">
+                <div className="1-3 h-3 bg-green-500 rounded-full animate-pulse" />
+                <span className="font-medium text-green-500">
+                  Available for work
+                </span>
+              </div>
+              <p
+                className={`text-sm ${
+                  isDarkMode ? "text-gray-400" : "text-gray-600"
+                }`}
+              >
+                I'm currently available for freelance and full-time
+                opportunities.
+              </p>
+            </motion.div>
+          </motion.div>
         </div>
-
-        
-
-
-
-
       </div>
 
-      <SuccessModel showSuccess={showSuccess} setShowSuccess={setShowSuccess} isDarkMode={isDarkMode} />
+      <SuccessModel
+        showSuccess={showSuccess}
+        setShowSuccess={setShowSuccess}
+        isDarkMode={isDarkMode}
+        title={modalTitle}
+        body={modalBody}
+        isError={modalIsError}
+      />
+      <ScheduleCallModal
+        open={showSchedule}
+        onClose={() => setShowSchedule(false)}
+        prefill={{ name: formData.name, email: formData.email }}
+        onSuccess={handleScheduleSuccess}
+      />
     </section>
   );
 };

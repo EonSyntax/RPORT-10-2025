@@ -3,7 +3,7 @@ import { motion, useInView } from "framer-motion";
 import { useTheme } from "../../context/ThemeContext";
 import { containerVariants, itemVariants } from "../../utils/helper";
 import ProjectCard from "../ProjectCard";
-import { PROJECTS } from "../../utils/data";
+// import { PROJECTS } from "../../utils/data";
 
 
 

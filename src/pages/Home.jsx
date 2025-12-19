@@ -8,7 +8,6 @@ import SkillsSection from "@/components/Sections/SkillsSection";
 import ProjectsSection from "@/components/Sections/ProjectsSection";
 import { TestimonialsSection } from "@/components/Sections/TestimonialsSection";
 import { CredentialCarousel } from "@/components/Sections/CredentialCarousel";
-import { sampleCertificates } from "@/components/Sections/CredentialCarousel/sampleData";
 import ContactSection from "@/components/Sections/ContactSection";
 import Footer from "@/components/Sections/Footer";
 
@@ -39,7 +38,7 @@ export const Home = () => {
           <ProjectsSection />
           <AboutSection />
           <TestimonialsSection />
-          <CredentialCarousel certificates={sampleCertificates} />
+          <CredentialCarousel />
           <ContactSection />
         </main>
 
