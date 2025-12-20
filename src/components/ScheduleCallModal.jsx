@@ -307,11 +307,13 @@ const ScheduleCallModal = ({ open, onClose, prefill = {}, onSuccess }) => {
                         <li key={t}>
                           <button
                             type="button"
-                            onClick={() => {
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
                               setTime(t);
                               setShowTimeMenu(false);
                             }}
-                            className={`w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 ${
+                            className={`w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 active:scale-95 transition-transform ${
                               t === time ? "bg-blue-500 text-white" : ""
                             }`}
                           >
