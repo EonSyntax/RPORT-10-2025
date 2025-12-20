@@ -13,26 +13,25 @@ const CredentialCarousel = () => {
   const [certificates, setCertificates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [emblaRef, emblaApi] = useEmblaCarousel({
-      align: "start",
-      loop: true,
-      skipSnaps: false,
-      dragFree: true,
-    });
+    align: "start",
+    loop: true,
+    skipSnaps: false,
+    dragFree: true,
+  });
 
+  const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
+  const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
-    const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
-    const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
-    const [selectedIndex, setSelectedIndex] = useState(0);
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
-    const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
-    const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
-
-    const onSelect = useCallback(() => {
-        if (!emblaApi) return;
-        setSelectedIndex(emblaApi.selectedScrollSnap());
-        setPrevBtnEnabled(emblaApi.canScrollPrev());
-        setNextBtnEnabled(emblaApi.canScrollNext());
-    }, [emblaApi]);
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+    setPrevBtnEnabled(emblaApi.canScrollPrev());
+    setNextBtnEnabled(emblaApi.canScrollNext());
+  }, [emblaApi]);
 
   useEffect(() => {
     fetch("https://rportb.onrender.com/api/certificates/")
@@ -58,7 +57,7 @@ const CredentialCarousel = () => {
     <section
       id="certificates"
       ref={sectionRef}
-      className={`py-24 px-6 ${
+      className={`py-12 px-6 ${
         isDarkMode ? "bg-gray-950 text-white" : "bg-gray-50 text-gray-900"
       } relative overflow-hidden`}
     >
@@ -108,7 +107,8 @@ const CredentialCarousel = () => {
                 isDarkMode ? "text-gray-400" : "text-gray-600"
               } max-w-2xl font-light`}
             >
-              Professional certifications and credentials that validate my expertise.
+              Professional certifications and credentials that validate my
+              expertise.
             </motion.p>
             <div className="flex justify-center md:absolute md:right-0 items-center gap-3">
               <button
@@ -143,11 +143,11 @@ const CredentialCarousel = () => {
         ) : (
           <>
             {/* Carousel */}
-            <motion.div 
+            <motion.div
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
               variants={containerVariants}
-              className="overflow-hidden" 
+              className="overflow-hidden"
               ref={emblaRef}
             >
               <div className="flex gap-6">

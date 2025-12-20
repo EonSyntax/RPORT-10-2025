@@ -85,7 +85,7 @@ export function TestimonialsSection() {
     <section
       id="testimonials"
       ref={sectionRef}
-      className={`py-24 px-6 ${
+      className={`py-12 px-6 ${
         isDarkMode ? "bg-gray-950 text-white" : "bg-white text-gray-900"
       } relative overflow-hidden`}
     >
