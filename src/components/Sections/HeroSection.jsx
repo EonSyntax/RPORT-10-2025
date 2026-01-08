@@ -239,13 +239,18 @@ const HeroSection = () => {
                 className="flex justify-center space-x-6 mb-15"
               >
                 {[
-                  { icon: FiGithub, href: "#" },
-                  { icon: FiLinkedin, href: "#" },
-                  { icon: Mail, href: "#" },
+                  { icon: FiGithub, href: "https://github.com/EonSyntax" },
+                  {
+                    icon: FiLinkedin,
+                    href: "https://linkedin.com/in/adebanji-emmanuel",
+                  },
+                  { icon: Mail, href: "mailto:eonsyntax@gmail.com" },
                 ].map((social, index) => (
                   <motion.a
                     key={index}
                     href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     whileHover={{ y: -3, scale: 1.1 }}
                     className={`p-3 rounded-full transition-colors ${
                       isDarkMode
@@ -281,10 +286,10 @@ const HeroSection = () => {
               <motion.h1
                 variants={itemVariants}
                 className="text-5xl xl:text-7xl font-light mb-8 leading-tight"
-              >
+                >
                 <span
                   className={`${isDarkMode ? "text-white" : "text-gray-900"}`}
-                >
+                  >
                   Crafting Digital
                 </span>
                 <br />
@@ -300,7 +305,7 @@ const HeroSection = () => {
                 className={`text-xl ${
                   isDarkMode ? "text-gray-400" : "text-gray-400"
                 } mb-12 font-light leading-relaxed max-w-lg`}
-              >
+                >
                 I build high-performance web applications with clean
                 architecture, accessibility, and seamless user experiences.
               </motion.p>
@@ -312,7 +317,7 @@ const HeroSection = () => {
                   whileTap={{ scale: 0.98 }}
                   onClick={() => scrollToSection("work")}
                   className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 rounded-full text-sm uppercase tracking-wider font-medium transition-all duration-300"
-                >
+                  >
                   View Work
                 </motion.button>
                 <motion.button
@@ -321,10 +326,10 @@ const HeroSection = () => {
                   onClick={() => scrollToSection("contact")}
                   className={`border ${
                     isDarkMode
-                      ? "border-gray-700 hover:border-gray-600 text-gray-300"
-                      : "border-gray-300 hover:border-gray-400 text-gray-700"
+                    ? "border-gray-700 hover:border-gray-600 text-gray-300"
+                    : "border-gray-300 hover:border-gray-400 text-gray-700"
                   } px-8 py-4 rounded-full text-sm uppercase tracking-wider font-medium transition-all duration-300`}
-                >
+                  >
                   Get in Touch
                 </motion.button>
               </motion.div>
@@ -333,7 +338,7 @@ const HeroSection = () => {
               <motion.div
                 variants={itemVariants}
                 className="flex space-x-6 mb-12 mx-15"
-              >
+                >
                 {[
                   { icon: FiGithub, href: "https://github.com/EonSyntax" },
                   {
@@ -345,6 +350,8 @@ const HeroSection = () => {
                   <motion.a
                     key={index}
                     href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     whileHover={{ y: -3, scale: 1.1 }}
                     className={`p-3 rounded-full transition-colors ${
                       isDarkMode
