@@ -68,6 +68,15 @@
 }
 
 @layer base {
+  :root {
+    --background: 222 47% 6%;
+    --foreground: 210 40% 98%;
+
+    --primary: 187 94% 43%;
+    --primary-foreground: 222 47% 6%;
+
+    --border: 222 47% 18%;
+  }
   html {
     font-family: var(--font-display);
   }
