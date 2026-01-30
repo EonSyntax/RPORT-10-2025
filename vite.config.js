@@ -17,6 +17,10 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+        // Avoid precaching the very large splinetool runtime chunk (loaded dynamically)
+        globIgnores: ["**/assets/@splinetool-*.*"],
+        // Increase default 2 MiB limit so larger assets can be precached on build
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5 MiB
       },
       manifest: {
         name: "EonSyntax Portfolio",
@@ -47,6 +51,24 @@ export default defineConfig({
       },
     }),
   ],
+  build: {
+    // Raise warning limit and split node_modules into separate vendor chunks
+    chunkSizeWarningLimit: 3000, // in KB (3 MiB)
+    rollupOptions: {
+      output: {
+        // Basic automatic vendor chunking: each top-level package in node_modules becomes a chunk
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            return id
+              .toString()
+              .split("node_modules/")[1]
+              .split("/")[0]
+              .toString();
+          }
+        },
+      },
+    },
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),

@@ -1,10 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 
-
-@theme {
+:root {
   --font-display: "Urbanist", sans-serif;
-
 
   --color-border: hsl(var(--border));
   --color-background: hsl(var(--background));
@@ -15,6 +13,7 @@
 
   --color-card: hsl(var(--card));
 
+  /* Helpful shorthand references for animations */
   --animate-float: float 6s ease-in-out infinite;
   --animate-pulse-subtle: pulse-subtle 4s ease-in-out infinite;
   --animate-fade-in: fade-in 0.7s ease-out forwards;
@@ -23,47 +22,50 @@
   --animate-fade-in-delay-3: fade-in 0.7s ease-out 0.6s forwards;
   --animate-fade-in-delay-4: fade-in 0.7s ease-out 0.8s forwards;
   --animate-meteor: meteor 5s linear infinite;
+}
 
-  @keyframes float {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
   }
-  @keyframes pulse-subtle {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.8;
-    }
+  50% {
+    transform: translateY(-10px);
   }
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+}
+
+@keyframes pulse-subtle {
+  0%,
+  100% {
+    opacity: 1;
   }
-  @keyframes meteor {
-    0% {
-      transform: rotate(215deg) translateX(0);
-      opacity: 1;
-    }
-    70% {
-      opacity: 1;
-    }
-    100% {
-      transform: rotate(215deg) translateX(-500px);
-      opacity: 0;
-    }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes meteor {
+  0% {
+    transform: rotate(215deg) translateX(0);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(215deg) translateX(-500px);
+    opacity: 0;
   }
 }
 
@@ -87,12 +89,39 @@
   }
 }
 
-@utility star {
-  @apply absolute rounded-full bg-white animate-[pulse-subtle_4s_ease-in-out_infinite];
-  box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.4);
-}
+@layer utilities {
+  .star {
+    position: absolute;
+    border-radius: 9999px;
+    background-color: #ffffff;
+    animation: pulse-subtle 4s ease-in-out infinite;
+    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.4);
+  }
 
-@utility meteor {
-  @apply absolute bg-linear-to-r from-white via-white to-transparent rounded-full animate-[meteor_5s_linear_infinite];
-  box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.3);
+  .meteor {
+    position: absolute;
+    border-radius: 9999px;
+    /* explicit gradient so validators don't complain */
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 1),
+      rgba(255, 255, 255, 0.6),
+      rgba(255, 255, 255, 0)
+    );
+    animation: meteor 5s linear infinite;
+    box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.3);
+  }
+
+  /* Explicit primary utilities to ensure generated styles for custom color vars */
+  .bg-primary {
+    background-color: hsl(var(--primary));
+  }
+
+  .bg-primary\/90 {
+    background-color: hsl(var(--primary) / 0.9);
+  }
+
+  .border-primary\/50 {
+    border-color: hsl(var(--primary) / 0.5);
+  }
 }

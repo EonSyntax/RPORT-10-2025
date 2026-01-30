@@ -2,13 +2,19 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Mail } from "lucide-react";
 import { FiGithub, FiLinkedin } from "react-icons/fi";
 import { useTheme } from "@/context/ThemeContext";
-import Spline from "@splinetool/react-spline";
+import { lazy, Suspense, useEffect } from "react";
+const Spline = lazy(() => import("@splinetool/react-spline"));
 
 import PROFILE_PIC from "@/assets/images/profile-pic.jpg";
 import { containerVariants, itemVariants } from "@/utils/helper";
 
 const HeroSection = () => {
   const { isDarkMode } = useTheme();
+
+  // Preload the Spline chunk immediately so the above-the-fold 3D scene appears fast
+  useEffect(() => {
+    import("@splinetool/react-spline");
+  }, []);
 
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 500], [0, -100]);
@@ -88,10 +94,12 @@ const HeroSection = () => {
         >
           <div className="w-[520px] h-[520px] lg:w-[680px] lg:h-[680px] 2xl:w-[880px] 2xl:h-[880px] relative overflow-hidden">
             <div className="[clip-path:inset(0_0_25%_0)] w-full h-full">
-              <Spline
-                scene="https://prod.spline.design/qFHEUKwt4anEZ479/scene.splinecode"
-                className="w-full h-full"
-              />
+              <Suspense fallback={<div className="w-full h-full" />}>
+                <Spline
+                  scene="https://prod.spline.design/qFHEUKwt4anEZ479/scene.splinecode"
+                  className="w-full h-full"
+                />
+              </Suspense>
             </div>
           </div>
         </div>
@@ -381,8 +389,6 @@ const HeroSection = () => {
               </motion.div>
             </motion.div>
 
-            {/* Spline moved to centered layer between background and content for layout and responsiveness */}
-
             {/* Right Column - Profile Image */}
             <motion.div
               initial="hidden"
@@ -479,9 +485,13 @@ const HeroSection = () => {
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 1.5, repeat: Infinity }}
-            className="w-6 h-10 rounded-full border-2 border-primary/50 flex justify-center pt-2"
+            className="w-6 h-10 rounded-full border-2 flex justify-center pt-2"
+            style={{ borderColor: "hsl(var(--primary) / 0.5)" }}
           >
-            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+            <div
+              className="w-1.5 h-1.5 rounded-full"
+              style={{ backgroundColor: "hsl(var(--primary))" }}
+            />
           </motion.div>
         </motion.div>
       </motion.section>
