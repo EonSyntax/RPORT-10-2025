@@ -3,6 +3,7 @@ import { Mail } from "lucide-react";
 import { FiGithub, FiLinkedin } from "react-icons/fi";
 import { useTheme } from "@/context/ThemeContext";
 import { lazy, Suspense, useEffect } from "react";
+import SplineErrorBoundary from "@/components/SplineErrorBoundary";
 const Spline = lazy(() => import("@splinetool/react-spline"));
 
 import PROFILE_PIC from "@/assets/images/profile-pic.jpg";
@@ -11,9 +12,23 @@ import { containerVariants, itemVariants } from "@/utils/helper";
 const HeroSection = () => {
   const { isDarkMode } = useTheme();
 
-  // Preload the Spline chunk immediately so the above-the-fold 3D scene appears fast
+  // Preload React first, then Spline. This helps avoid circular dependency / init-order issues
+  // that can lead to runtime errors such as "Cannot read properties of undefined (reading 'forwardRef')".
   useEffect(() => {
-    import("@splinetool/react-spline");
+    // Ensure React chunk is loaded and initialized before splinetool
+    import("react")
+      .then((rmod) => {
+        console.log("react module keys (preload):", Object.keys(rmod));
+        return import("@splinetool/react-spline");
+      })
+      .then((m) => {
+        // attach for runtime inspection
+        try {
+          window.__SPLINE_MODULE__ = m;
+        } catch (e) {}
+        console.log("spline module keys (preload):", Object.keys(m));
+      })
+      .catch((e) => console.error("spline import failed:", e));
   }, []);
 
   const { scrollY } = useScroll();
@@ -95,10 +110,12 @@ const HeroSection = () => {
           <div className="w-[520px] h-[520px] lg:w-[680px] lg:h-[680px] 2xl:w-[880px] 2xl:h-[880px] relative overflow-hidden">
             <div className="[clip-path:inset(0_0_25%_0)] w-full h-full">
               <Suspense fallback={<div className="w-full h-full" />}>
-                <Spline
-                  scene="https://prod.spline.design/qFHEUKwt4anEZ479/scene.splinecode"
-                  className="w-full h-full"
-                />
+                <SplineErrorBoundary>
+                  <Spline
+                    scene="https://prod.spline.design/qFHEUKwt4anEZ479/scene.splinecode"
+                    className="w-full h-full"
+                  />
+                </SplineErrorBoundary>
               </Suspense>
             </div>
           </div>

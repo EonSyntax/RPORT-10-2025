@@ -59,6 +59,18 @@ export default defineConfig({
         // Basic automatic vendor chunking: each top-level package in node_modules becomes a chunk
         manualChunks(id) {
           if (id.includes("node_modules")) {
+            // Ensure React and React DOM are bundled together in a stable 'react' chunk
+            if (
+              id.includes("node_modules/react-dom") ||
+              id.includes("node_modules/react/")
+            ) {
+              return "react";
+            }
+            // Ensure the Spline runtime is isolated into a single 'splinetool' chunk
+            if (id.includes("node_modules/@splinetool")) {
+              return "splinetool";
+            }
+            // Fallback: group by top-level package name
             return id
               .toString()
               .split("node_modules/")[1]
