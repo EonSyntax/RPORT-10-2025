@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Mail } from "lucide-react";
 import { FiGithub, FiLinkedin } from "react-icons/fi";
 import { useTheme } from "@/context/ThemeContext";
+import Spline from "@splinetool/react-spline";
 
 import PROFILE_PIC from "@/assets/images/profile-pic.jpg";
 import { containerVariants, itemVariants } from "@/utils/helper";
@@ -78,6 +79,21 @@ const HeroSection = () => {
               isDarkMode ? "bg-purple-500" : "bg-purple-400"
             }`}
           />
+        </div>
+
+        {/* Spline: Layer 1 — centered on desktop, hidden on mobile */}
+        <div
+          className="hidden lg:flex absolute inset-0 ml-20 items-center justify-center pointer-events-none z-5"
+          aria-hidden="true"
+        >
+          <div className="w-[520px] h-[520px] lg:w-[680px] lg:h-[680px] 2xl:w-[880px] 2xl:h-[880px] relative overflow-hidden">
+            <div className="[clip-path:inset(0_0_25%_0)] w-full h-full">
+              <Spline
+                scene="https://prod.spline.design/qFHEUKwt4anEZ479/scene.splinecode"
+                className="w-full h-full"
+              />
+            </div>
+          </div>
         </div>
 
         <div className="max-w-7xl mx-auto w-full z-10 mt-10">
@@ -286,10 +302,10 @@ const HeroSection = () => {
               <motion.h1
                 variants={itemVariants}
                 className="text-5xl xl:text-7xl font-light mb-8 leading-tight"
-                >
+              >
                 <span
                   className={`${isDarkMode ? "text-white" : "text-gray-900"}`}
-                  >
+                >
                   Crafting Digital
                 </span>
                 <br />
@@ -305,7 +321,7 @@ const HeroSection = () => {
                 className={`text-xl ${
                   isDarkMode ? "text-gray-400" : "text-gray-400"
                 } mb-12 font-light leading-relaxed max-w-lg`}
-                >
+              >
                 I build high-performance web applications with clean
                 architecture, accessibility, and seamless user experiences.
               </motion.p>
@@ -317,7 +333,7 @@ const HeroSection = () => {
                   whileTap={{ scale: 0.98 }}
                   onClick={() => scrollToSection("work")}
                   className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 rounded-full text-sm uppercase tracking-wider font-medium transition-all duration-300"
-                  >
+                >
                   View Work
                 </motion.button>
                 <motion.button
@@ -326,10 +342,10 @@ const HeroSection = () => {
                   onClick={() => scrollToSection("contact")}
                   className={`border ${
                     isDarkMode
-                    ? "border-gray-700 hover:border-gray-600 text-gray-300"
-                    : "border-gray-300 hover:border-gray-400 text-gray-700"
+                      ? "border-gray-700 hover:border-gray-600 text-gray-300"
+                      : "border-gray-300 hover:border-gray-400 text-gray-700"
                   } px-8 py-4 rounded-full text-sm uppercase tracking-wider font-medium transition-all duration-300`}
-                  >
+                >
                   Get in Touch
                 </motion.button>
               </motion.div>
@@ -338,7 +354,7 @@ const HeroSection = () => {
               <motion.div
                 variants={itemVariants}
                 className="flex space-x-6 mb-12 mx-15"
-                >
+              >
                 {[
                   { icon: FiGithub, href: "https://github.com/EonSyntax" },
                   {
@@ -364,6 +380,8 @@ const HeroSection = () => {
                 ))}
               </motion.div>
             </motion.div>
+
+            {/* Spline moved to centered layer between background and content for layout and responsiveness */}
 
             {/* Right Column - Profile Image */}
             <motion.div
@@ -466,18 +484,6 @@ const HeroSection = () => {
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
           </motion.div>
         </motion.div>
-
-
-        {/* <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        >
-          <ArrowDown
-            size={20}
-            className={isDarkMode ? "text-gray-600" : "text-gray-300"}
-          />
-        </motion.div> */}
       </motion.section>
     </div>
   );
